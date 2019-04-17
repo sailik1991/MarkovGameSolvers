@@ -75,7 +75,7 @@ class OptimalMixed(Strategy):
 
         return (float(m.ObjVal), policy)
 
-if __name__ == '__main__':
+def main():
     agents = [UniformRandom(), OptimalMixed()]
 
     #s = 'gamma V0_mmp V1_mmp V2_mmp V3_mmp V0_ur V1_ur V2_ur V3_ur V0_om V1_om V2_om V3_om'
@@ -91,4 +91,7 @@ if __name__ == '__main__':
             for state in V.keys():
                 s += '{} '.format(V[state])
     print(s)
+    return(s)
 
+if __name__ == '__main__':
+    main()

@@ -17,3 +17,5 @@ python agents.py
 ```
 
 For using the min-max agent which computes the optimal markov game strategy for the players, you will need to have gurobi installed. Gurobi comes with a free academic license and can be installed into anaconda in 3 simple steps (see [this link](http://www.gurobi.com/documentation/8.0/quickstart_mac/installing_the_anaconda_py.html)).
+
+Send me a mail for collaboration. Use the `test.py` script in each folder to ensure that newly added code does not break the existing code.
