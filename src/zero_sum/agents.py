@@ -4,6 +4,8 @@ from strategy import Strategy
 __author__ = "Sailik Sengupta"
 
 class MaxMinPure(Strategy):
+    def get_name(self):
+        return 'MMP'
     def get_value(self, s, A1, A2, R, T, Q):
         num_d = len(A1)
         num_a = len(A2)
@@ -24,6 +26,8 @@ class MaxMinPure(Strategy):
         return (float(value), policy)
 
 class UniformRandom(Strategy):
+    def get_name(self):
+        return 'URS'
     def get_value(self, s, A1, A2, R, T, Q):
         num_d = len(A1)
         num_a = len(A2)
@@ -43,6 +47,8 @@ class UniformRandom(Strategy):
         return(float(min_v), policy)
 
 class OptimalMixed(Strategy):
+    def get_name(self):
+        return 'OPT'
     def get_value(self, s, A1, A2, R, T, Q):
         num_d = len(A1)
         num_a = len(A2)
@@ -78,18 +84,32 @@ class OptimalMixed(Strategy):
 def main():
     agents = [UniformRandom(), OptimalMixed()]
 
-    #s = 'gamma V0_mmp V1_mmp V2_mmp V3_mmp V0_ur V1_ur V2_ur V3_ur V0_om V1_om V2_om V3_om'
-    s = 'gamma V0_ur V1_ur V2_ur V3_ur V0_om V1_om V2_om V3_om'
+    # Initialize the final output string
+    s_header = 'gamma '
+    s = ''
+    
     for gamma in range(50, 100, 5):
+        
+        # First column of the output has gamma values for that run
         gamma = gamma/100.0
         s += '\n{} '.format(gamma)
         print( 'Discount Factor: {}'.format(gamma))
+
         for agent in agents:
             agent.set_gamma(gamma)
             V, pi = agent.run()
-            #print(V)
             for state in V.keys():
+                
+                # check if header is ready
+                if '\n' not in s_header:
+                    s_header += 'V{}_{} '.format(state, agent.get_name())
+
                 s += '{} '.format(V[state])
+            
+        if '\n' not in s_header:
+            s_header += '\n'
+
+    s = s_header + s
     print(s)
     return(s)
 
