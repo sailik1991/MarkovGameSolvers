@@ -4,7 +4,7 @@ This code was mostly written for papers presented at AAAI-19 AICS and GameSec-19
 
 **New addition:** Compute the the Nash or the Strong Stackelberg Eq. strategies for a general-sum Markov Game.
 
-## How to use
+## How to use it
 
 To run code, manuver to the appropriate folder and run `agents.py`. The set of commands that one can use to do this starting at the root folder are:
 ```
@@ -19,7 +19,7 @@ python agents.py
 
 For using the min-max agent which computes the optimal markov game strategy for the players, you will need to have gurobi installed. Gurobi comes with a free academic license and can be installed into anaconda in 3 simple steps (see [this link](http://www.gurobi.com/documentation/8.0/quickstart_mac/installing_the_anaconda_py.html)).
 
-## Considerations if this helps you
+## Considerations if it helps you
 
 If you use this for code for your research, we would appreciate if you cite our work. :)
 + Zero-sum
@@ -43,4 +43,6 @@ If you use this for code for your research, we would appreciate if you cite our 
 }
 ```
 
-Send me a mail (sailik.cse.jdvu {at} gmail {dot} com) if you are interested in collaboration.
+## Contact
+
+If you are interested in collaboration/clarification or feel there is a correction that needs to be made, please send me a email at `sailik.cse.jdvu {at} gmail {dot} com`.
