@@ -4,20 +4,51 @@ This code was mostly written for papers presented at AAAI-19 AICS and GameSec-19
 
 **New addition:** Compute the the Nash or the Strong Stackelberg Eq. strategies for a general-sum Markov Game.
 
+## Installation
+
+You can install the package and its dependencies using pip:
+
+```bash
+pip install -r requirements.txt
+```
+
+Or install directly from the repository:
+
+```bash
+pip install .
+```
+
 ## How to use it
 
-To run code, manuver to the appropriate folder and run `agents.py`. The set of commands that one can use to do this starting at the root folder are:
-```
-cd ./src/zero-sum
-python agents.py
-```
-OR
-```
-cd ./src/general-sum
-python agents.py
+After installation, you can import and use the package as follows:
+
+```python
+# For zero-sum games
+from MarkovGameSolvers.zero_sum.agents import UniformRandom, OptimalMixed
+agent = UniformRandom()
+# or
+agent = OptimalMixed()
+
+# For general-sum games
+from MarkovGameSolvers.general_sum.agents import UniformRandom, NashEq, StackelbergEq
+agent = UniformRandom()
+# or
+agent = NashEq()
+# or
+agent = StackelbergEq()
 ```
 
-For using the min-max agent which computes the optimal markov game strategy for the players, you will need to have gurobi installed. Gurobi comes with a free academic license and can be installed into anaconda in 3 simple steps (see [this link](http://www.gurobi.com/documentation/8.0/quickstart_mac/installing_the_anaconda_py.html)).
+You can also run the main functions directly:
+
+```bash
+# For zero-sum games
+python -c "from MarkovGameSolvers.zero_sum.agents import main; main()"
+
+# For general-sum games
+python -c "from MarkovGameSolvers.general_sum.agents import main; main()"
+```
+
+This implementation uses PuLP as an open-source alternative to Gurobi for solving optimization problems. The original implementation required Gurobi, which is a commercial solver (though it offers a free academic license).
 
 ## Considerations if it helps you
 
