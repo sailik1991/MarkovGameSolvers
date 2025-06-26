@@ -1,4 +1,3 @@
-import numpy as np
 from .game import GeneralSum_Game 
 from .utils import *
 import pulp

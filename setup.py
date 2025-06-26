@@ -5,7 +5,7 @@ setup(
     version="0.1.0",
     packages=find_packages(),
     install_requires=[
-        "numpy>=1.21.0",
+        "numpy>=2.3.1",
         "nashpy>=0.0.41",
         "pulp>=3.2.1",
         "scipy>=1.16.0",
