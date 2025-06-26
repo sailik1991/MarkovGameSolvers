@@ -1,7 +1,7 @@
-import importlib
 import numpy as np
-from game import GeneralSum_Game 
-from utils import *
+from .game import GeneralSum_Game 
+from .utils import *
+import pulp
 
 __author__ = "Sailik Sengupta"
 
@@ -9,7 +9,7 @@ class Strategy:
     def __init__(self, game_to_play=GeneralSum_Game(), gamma=0.5):
         self.game = game_to_play
         self.DISCOUNT_FACTOR = gamma
-        self.lib = importlib.import_module('gurobi')
+        self.lib = pulp  # Using PuLP instead of Gurobi
 
     def set_gamma(self, gamma):
         self.DISCOUNT_FACTOR = gamma

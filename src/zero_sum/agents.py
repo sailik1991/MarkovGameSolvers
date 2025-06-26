@@ -1,5 +1,5 @@
 import numpy as np
-from strategy import Strategy
+from .strategy import Strategy
 
 __author__ = "Sailik Sengupta"
 
@@ -53,33 +53,35 @@ class OptimalMixed(Strategy):
         num_d = len(A1)
         num_a = len(A2)
 
-        # Solve a optimization problem with Gurobi to find:
+        # Solve a optimization problem with PuLP to find:
         # (1) The optimal value of the state (and update it)
         # (2) The optimal mixed strategy in the state
-        m = self.lib.Model('LP')
-        m.setParam('OutputFlag', 0)
-        m.setParam('LogFile', '')
-        m.setParam('LogToConsole', 0)
-        v = m.addVar(name='v', vtype=self.lib.GRB.CONTINUOUS, lb=-1*self.lib.GRB.INFINITY)
+        m = self.lib.LpProblem(name='LP', sense=self.lib.LpMaximize)
+        
+        # Create variables
+        v = self.lib.LpVariable(name='v', lowBound=None)  # No lower bound
         pi = {}
         for d in range(num_d):
-            pi[d] = m.addVar(lb=0.0, ub=1.0, name='pi_{}'.format(A1[d]))
-        m.update()
+            pi[d] = self.lib.LpVariable(name='pi_{}'.format(A1[d]), lowBound=0.0, upBound=1.0)
+        
+        # Add objective
+        m += v
+        
+        # Add constraints
         for a in range(num_a):
-            m.addConstr(
-                self.lib.quicksum(pi[d] * Q['{}_{}_{}'.format(s, A1[d], A2[a])] for d in range(num_d)) >= v,
-                name='c_ai_{}'.format(A2[a]))
-        m.addConstr(self.lib.quicksum(pi[d] for d in range(num_d)) == 1, name='c_pi')
-        m.setParam('DualReductions', 0)
-        m.setObjective(v, sense=self.lib.GRB.MAXIMIZE)
-        m.optimize()
-
+            m += (self.lib.lpSum(pi[d] * Q['{}_{}_{}'.format(s, A1[d], A2[a])] for d in range(num_d)) >= v,
+                 'c_ai_{}'.format(A2[a]))
+        
+        m += (self.lib.lpSum(pi[d] for d in range(num_d)) == 1, 'c_pi')
+        
+        # Solve the problem
+        m.solve(self.lib.PULP_CBC_CMD(msg=False))
+        
         policy = {}
-        for var in m.getVars():
-            if 'pi_' in var.varName:
-                policy[var.varName] = float(var.x)
+        for d in range(num_d):
+            policy['pi_{}'.format(A1[d])] = float(pi[d].value())
 
-        return (float(m.ObjVal), policy)
+        return (float(self.lib.value(m.objective)), policy)
 
 def main():
     agents = [UniformRandom(), OptimalMixed()]
